@@ -115,12 +115,26 @@ async function main() {
   await mkdir(OUT, { recursive: true });
   const manifest = {};
 
+  if (!existsSync(SRC)) {
+    throw new Error(
+      `No source photo directory at ${SRC}.\n\n` +
+        `This script reads the owner's originals from ../photos, which sits OUTSIDE\n` +
+        `the git repository (the repo root is site/). It therefore cannot run on a\n` +
+        `deploy host — only on a machine that has the full project folder.\n\n` +
+        `Deploys use the committed output in public/img and lib/images.generated.json,\n` +
+        `which is why "npm run build" does not call this script. Run "npm run images"\n` +
+        `locally after changing photos, then commit public/img and the manifest.`,
+    );
+  }
+
+  let found = 0;
   for (const file of PHOTOS) {
     const src = path.join(SRC, file);
     if (!existsSync(src)) {
       console.warn(`  ! missing ${file} — skipped`);
       continue;
     }
+    found++;
     const name = slug(file);
     const meta = await sharp(src).metadata();
     const quality = QUALITY_OVERRIDES[name] ?? QUALITY;
@@ -263,6 +277,17 @@ async function main() {
       .jpeg({ quality: 82 })
       .toFile(path.join(OUT, "og.jpg"));
     console.log("  ✓ og.jpg 1200×630");
+  }
+
+  // Refuse to persist an empty or partial manifest over a good one. Writing
+  // "{}" here is what turned a missing-photos problem into a confusing build
+  // failure further downstream, so it now fails loudly and changes nothing.
+  if (found < PHOTOS.length) {
+    throw new Error(
+      `Only ${found} of ${PHOTOS.length} source photos were found in ${SRC}.\n` +
+        `Refusing to overwrite lib/images.generated.json with an incomplete manifest.\n` +
+        `Restore the missing files listed above and re-run.`,
+    );
   }
 
   await writeFile(
