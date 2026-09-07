@@ -16,6 +16,19 @@ const OUT = path.resolve("public/img");
 // Capped at 1600: nothing on the page is displayed wider than that even on a
 // high-DPR desktop, and a 2048px variant would push the hero past its 200KB budget.
 const LADDER = [400, 640, 900, 1200, 1600];
+
+/**
+ * Per-image quality overrides.
+ *
+ * The phone banner is the Largest Contentful Paint element, and it always sits
+ * under a heavy dark gradient with the headline over it — detail in the
+ * shadows is invisible there, so it can take far more compression than a
+ * gallery photo the visitor is actually studying.
+ */
+const QUALITY_OVERRIDES = { "sinlge-burger-shot": 58 };
+
+/** 768 catches the ~721px a 412pt Android at DPR 1.75 asks for. */
+const EXTRA_WIDTHS = { "sinlge-burger-shot": [768] };
 const QUALITY = 72;
 
 /** Photos that go through the responsive ladder. */
@@ -110,13 +123,16 @@ async function main() {
     }
     const name = slug(file);
     const meta = await sharp(src).metadata();
-    const widths = LADDER.filter((x) => x <= meta.width);
-    if (!widths.includes(meta.width) && widths.length === 0) widths.push(meta.width);
+    const quality = QUALITY_OVERRIDES[name] ?? QUALITY;
+    const widths = [...new Set([...LADDER, ...(EXTRA_WIDTHS[name] ?? [])])]
+      .filter((x) => x <= meta.width)
+      .sort((a, b) => a - b);
+    if (widths.length === 0) widths.push(meta.width);
 
     for (const width of widths) {
       await sharp(src)
         .resize({ width, withoutEnlargement: true })
-        .webp({ quality: QUALITY, effort: 6 })
+        .webp({ quality, effort: 6 })
         .toFile(path.join(OUT, `${name}-${width}.webp`));
     }
 
@@ -149,11 +165,15 @@ async function main() {
     const cropped = await sharp(wideSrc).extract(region).toBuffer();
     const cropMeta = await sharp(cropped).metadata();
 
-    const widths = LADDER.filter((w) => w <= cropMeta.width);
+    // The banner spans the full viewport, so it needs the whole source width —
+    // it is the one image not capped by LADDER. 2048 is the source's own limit.
+    const widths = [...new Set([...LADDER, cropMeta.width])].filter((w) => w <= cropMeta.width);
     for (const width of widths) {
       await sharp(cropped)
         .resize({ width, withoutEnlargement: true })
-        .webp({ quality: QUALITY, effort: 6 })
+        // Slightly harder compression: this image always sits behind a dark
+        // gradient with text over it, so detail matters less than weight.
+        .webp({ quality: width >= 1600 ? 66 : QUALITY, effort: 6 })
         .toFile(path.join(OUT, `hero-wide-${width}.webp`));
     }
     const lqip = await sharp(cropped).resize({ width: 16 }).blur(1).webp({ quality: 30 }).toBuffer();

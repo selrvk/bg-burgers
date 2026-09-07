@@ -1,4 +1,5 @@
 import { business, contact } from "@/lib/content";
+import { srcSetFor, fallbackSrc, dimensions } from "@/lib/srcset";
 import { OpenStatus } from "./OpenStatus";
 
 /**
@@ -12,20 +13,22 @@ import { OpenStatus } from "./OpenStatus";
  * is the LCP element and only one of the two files should ever be fetched.
  */
 export function Hero() {
+  const phone = dimensions("sinlge-burger-shot");
+
   return (
     <section id="top" className="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden">
       <picture>
         <source
           media="(min-width: 768px)"
-          srcSet="/img/hero-wide-900.webp 900w, /img/hero-wide-1200.webp 1200w, /img/hero-wide-1600.webp 1600w, /img/hero-wide-2048.webp 2048w"
+          srcSet={srcSetFor("hero-wide")}
           sizes="100vw"
         />
         <img
-          src="/img/sinlge-burger-shot-640.webp"
-          srcSet="/img/sinlge-burger-shot-400.webp 400w, /img/sinlge-burger-shot-640.webp 640w, /img/sinlge-burger-shot-900.webp 900w"
+          src={fallbackSrc("sinlge-burger-shot")}
+          srcSet={srcSetFor("sinlge-burger-shot")}
           sizes="100vw"
-          width={1080}
-          height={1440}
+          width={phone.width}
+          height={phone.height}
           alt="A BG Burgers double bacon cheeseburger with fries, served on the shop's branded paper under strings of warm bulbs at dusk"
           fetchPriority="high"
           decoding="async"
@@ -39,47 +42,59 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <div className="wrap pb-9 pt-28">
-        <p className="eyebrow text-gold-soft">
-          {business.address.barangay} · {business.address.city}
-        </p>
+      <div className="wrap flex items-end justify-between gap-14 pb-9 pt-28">
+        <div className="xl:max-w-2xl">
+          <p className="eyebrow text-gold-soft">
+            {business.address.barangay} · {business.address.city}
+          </p>
 
-        <h1 className="mt-2.5 text-[clamp(2.9rem,13vw,5.5rem)] text-cream">{business.name}</h1>
+          <h1 className="mt-2.5 text-[clamp(2.9rem,13vw,5.5rem)] text-cream">{business.name}</h1>
 
-        <p className="mt-1 font-display text-[clamp(1.05rem,4.4vw,1.6rem)] tracking-wide text-gold">
-          {business.legalTagline}
-        </p>
+          <p className="mt-1 font-display text-[clamp(1.05rem,4.4vw,1.6rem)] tracking-wide text-gold">
+            {business.legalTagline}
+          </p>
 
-        <p className="mt-4 max-w-md text-[1.02rem] leading-relaxed text-cream/90">
-          &ldquo;{business.promise}&rdquo;
-        </p>
+          <p className="mt-4 max-w-md text-[1.02rem] leading-relaxed text-cream/90">
+            &ldquo;{business.promise}&rdquo;
+          </p>
 
-        <OpenStatus className="mt-5" />
+          <OpenStatus className="mt-5" />
 
-        <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
-          <a
-            href={contact.messenger}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary w-full sm:w-auto"
-          >
-            <MessengerIcon />
-            Message us to order
-          </a>
-          <a
-            href={contact.directionsGoogle}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-ghost w-full sm:w-auto"
-          >
-            <PinIcon />
-            Get directions
-          </a>
+          <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+            <a
+              href={contact.messenger}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary w-full sm:w-auto"
+            >
+              <MessengerIcon />
+              Message us to order
+            </a>
+            <a
+              href={contact.directionsGoogle}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost w-full sm:w-auto"
+            >
+              <PinIcon />
+              Get directions
+            </a>
+          </div>
+
+          <p className="mt-3 text-sm text-muted">
+            Walang phone line — orders and questions go through Facebook Messenger.
+          </p>
         </div>
 
-        <p className="mt-3 text-sm text-muted">
-          Walang phone line — orders and questions go through Facebook Messenger.
-        </p>
+        {/*
+          Only rendered from 1280px up (see .hero-plate). Below that the burger
+          IS the background image, so showing it twice would be redundant.
+        */}
+        <div
+          className="hero-plate"
+          role="img"
+          aria-label="A BG Burgers double bacon cheeseburger with fries, served on the shop's branded paper"
+        />
       </div>
     </section>
   );

@@ -5,6 +5,7 @@
     "widths": [
       400,
       640,
+      768,
       900
     ],
     "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAACQBACdASoQABUAPxFysFAsJqSisAgBgCIJbACdMoR4PoADKDm6Hw1l7tOj+hAA8NWCaoFq0vmIAjQs2UuzjLRy+q9e1hjc0Y9CFVblmhN1S27WMqpbohMiG8ROu6kajNi63JgSiZS2WoVLYeDxJ2WkJHsl8YAA"
@@ -71,7 +72,8 @@
       640,
       900,
       1200,
-      1600
+      1600,
+      2048
     ],
     "blur": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAcABABoJQBOgCG6UiRTAAD+rGFDmbmsnBT01eXJo6udrJ2GAAAA"
   },

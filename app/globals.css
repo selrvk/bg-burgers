@@ -155,6 +155,46 @@ summary:focus-visible {
     inset 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
+/* ── Wide-screen hero plate ──────────────────────────────────────────────── */
+
+/*
+ * On large screens the banner had the venue photo and nothing else, leaving a
+ * thousand-odd pixels of empty picture beside the copy — and the food, which is
+ * what the business actually sells, never appeared above the fold at all.
+ * This frames the burger shot beside the headline like the lit sign on the
+ * truck, echoing the header.
+ *
+ * It is a CSS background rather than an <img> on purpose: an <img> inside a
+ * display:none wrapper is still downloaded, which would cost every phone
+ * visitor ~70KB for something they never see. A background-image declared
+ * inside the media query is only ever fetched on the screens that show it.
+ */
+.hero-plate {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .hero-plate {
+    display: block;
+    width: 356px;
+    aspect-ratio: 3 / 4;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background-color: var(--color-night-2);
+    background-size: cover;
+    background-position: center;
+    background-image: image-set(
+      url("/img/sinlge-burger-shot-400.webp") 1x,
+      url("/img/sinlge-burger-shot-900.webp") 2x
+    );
+    box-shadow:
+      0 0 0 5px rgba(251, 246, 236, 0.92),
+      0 0 26px rgba(255, 217, 142, 0.4),
+      0 0 70px rgba(242, 160, 61, 0.22),
+      0 24px 60px -20px rgba(0, 0, 0, 0.75);
+  }
+}
+
 /* ── Slot 2 (menu island): their own wax paper ───────────────────────────── */
 
 .waxpaper {

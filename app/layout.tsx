@@ -109,29 +109,6 @@ function structuredData() {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-PH" className={anton.variable}>
-      <head>
-        {/*
-          The hero is art-directed, so the preload is too: exactly one of these
-          two matches, and it starts the LCP fetch before the parser reaches
-          the <picture> in the body.
-        */}
-        <link
-          rel="preload"
-          as="image"
-          media="(max-width: 767px)"
-          fetchPriority="high"
-          imageSrcSet="/img/sinlge-burger-shot-400.webp 400w, /img/sinlge-burger-shot-640.webp 640w, /img/sinlge-burger-shot-900.webp 900w"
-          imageSizes="100vw"
-        />
-        <link
-          rel="preload"
-          as="image"
-          media="(min-width: 768px)"
-          fetchPriority="high"
-          imageSrcSet="/img/hero-wide-900.webp 900w, /img/hero-wide-1200.webp 1200w, /img/hero-wide-1600.webp 1600w, /img/hero-wide-2048.webp 2048w"
-          imageSizes="100vw"
-        />
-      </head>
       <body>
         <a
           href="#main"
