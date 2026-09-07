@@ -1,0 +1,89 @@
+{
+  "sinlge-burger-shot": {
+    "width": 1080,
+    "height": 1440,
+    "widths": [
+      400,
+      640,
+      900
+    ],
+    "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAACQBACdASoQABUAPxFysFAsJqSisAgBgCIJbACdMoR4PoADKDm6Hw1l7tOj+hAA8NWCaoFq0vmIAjQs2UuzjLRy+q9e1hjc0Y9CFVblmhN1S27WMqpbohMiG8ROu6kajNi63JgSiZS2WoVLYeDxJ2WkJHsl8YAA"
+  },
+  "place-shot2": {
+    "width": 2048,
+    "height": 1536,
+    "widths": [
+      400,
+      640,
+      900,
+      1200,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAgCdASoQAAwABABoJbACdAEPhiqbXt9VAAD+vHHGo72AyrYOtsYIKlet01Ko87qZcdrkC6fvTZQAAAA="
+  },
+  "food-from-menu-shot": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      400,
+      640,
+      900,
+      1200
+    ],
+    "blur": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABwAwCdASoQABUAPxFyslAsJqSisAgBgCIJagCsG1/AB1oPzugAq350EMjROvbW6QVilN7oTdl8XMJXNK2tzul6HVBPkYLbAStMMfoJZX7HW6hDLEWCfEAA"
+  },
+  "chicken-wings-shot": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      400,
+      640,
+      900,
+      1200
+    ],
+    "blur": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoQABUAPxF0sVCsJqSisAgBgCIJQBOmUABWO0bLeTOO7J7cHADox1K9G8pl118Kr6YNCM5TSv23dLdfG5oUBjDCz+gRjhxY9t4MZmCAAAA="
+  },
+  "burgers-shot": {
+    "width": 1080,
+    "height": 1440,
+    "widths": [
+      400,
+      640,
+      900
+    ],
+    "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwAwCdASoQABUAPxFysFAsJqSisAgBgCIJbACdMoR3ACBPpmHx6zlgAPDVLmsZQ1GGw977w4xo3/69riSRT9tJfUVfdow6jXDTnWaXJ3ercQqEz9tpHzGOnDapINTK2XNGuNz0T1dY7qwFa5XrJg8DeFD57EQA"
+  },
+  "burgers-w-bacon-shot": {
+    "width": 1080,
+    "height": 1440,
+    "widths": [
+      400,
+      640,
+      900
+    ],
+    "blur": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACQAwCdASoQABUAPxFysFAsJqSisAgBgCIJbACdMoADTA6vvMcAAP6sOTG35A+RoZ//GZAoS56ESlWFjL8soHdcrb00ugCT1Dct5sQuRXDTKm/NPUxob4Av+mxo3qOi+pzP+NOpKuXOAAAA"
+  },
+  "hero-wide": {
+    "width": 2048,
+    "height": 876,
+    "widths": [
+      400,
+      640,
+      900,
+      1200,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAcABABoJQBOgCG6UiRTAAD+rGFDmbmsnBT01eXJo6udrJ2GAAAA"
+  },
+  "logo": {
+    "width": 797,
+    "height": 535,
+    "widths": [
+      180,
+      320,
+      480,
+      720
+    ],
+    "blur": ""
+  }
+}
