@@ -33,7 +33,7 @@ export function Menu() {
               <span className="font-display text-xl">
                 {peso(priceRange.low)} – {peso(priceRange.high)}
               </span>
-              <span className="text-sm text-[#4a3f30]">per person, roughly</span>
+              <span className="text-sm text-[#4a3f30]">on the menu</span>
             </p>
 
             {priceRange.isPlaceholder && <Todo tone="paper">{priceRange.todo}</Todo>}
@@ -42,7 +42,7 @@ export function Menu() {
 
           <Photo
             name="food-from-menu-shot"
-            alt="An overhead spread of BG Burgers food: burgers with fries in baskets, breaded and glazed chicken wings, shrimp pasta, creamy pasta, garlic bread and beef nachos, all on the shop's branded paper"
+            alt="An overhead spread of BG Burgers food: burgers with fries in baskets, breaded and glazed chicken wings, two plates of pasta, garlic bread and beef nachos, all on the shop's branded paper"
             sizes="(min-width: 768px) 66rem, 100vw"
             className="mt-7 h-64 w-full rounded-xl object-cover ring-1 ring-[#20190f]/10 sm:h-80 md:h-96"
           />
@@ -119,28 +119,78 @@ function Category({ category }: { category: MenuCategory }) {
         <p className="mt-1.5 text-[0.95rem] leading-relaxed text-[#4a3f30]">{category.blurb}</p>
 
         {category.items.length > 0 ? (
-          <ul className="mt-4 divide-y divide-[#20190f]/10">
-            {category.items.map((item) => (
-              <li key={item.name} className="flex items-baseline gap-3 py-2.5">
-                <span className="font-semibold text-[#20190f]">
-                  {item.name}
-                  {item.note && (
-                    <span className="ml-1.5 font-normal text-[#6b5c48]">{item.note}</span>
-                  )}
-                </span>
-                <span
-                  className="mx-1 grow border-b border-dotted border-[#20190f]/25"
-                  aria-hidden="true"
-                />
-                <span className="shrink-0 font-display text-lg text-[#20190f]">
-                  {peso(item.price)}
-                </span>
-              </li>
-            ))}
-          </ul>
+          category.priceColumns ? (
+            /*
+             * Two prices per item (ala carte / meal), so it becomes a real table
+             * with real column headers — a screen reader announces which price
+             * is which, and the columns stay aligned at any text size.
+             */
+            <table className="mt-4 w-full text-left">
+              <caption className="sr-only">{category.name} prices</caption>
+              <thead>
+                <tr className="border-b border-[#20190f]/15">
+                  <th scope="col" className="sr-only">
+                    Item
+                  </th>
+                  {category.priceColumns.map((label) => (
+                    <th
+                      key={label}
+                      scope="col"
+                      className="pb-1.5 text-right text-xs font-bold uppercase tracking-wider text-[#7a6a52]"
+                    >
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#20190f]/10">
+                {category.items.map((item) => (
+                  <tr key={item.name}>
+                    <th
+                      scope="row"
+                      className="py-2.5 pr-3 font-semibold text-[#20190f]"
+                    >
+                      {item.name}
+                    </th>
+                    <td className="py-2.5 pl-2 text-right font-display text-lg text-[#20190f]">
+                      {peso(item.price)}
+                    </td>
+                    <td className="py-2.5 pl-3 text-right font-display text-lg text-[#20190f]">
+                      {item.mealPrice ? peso(item.mealPrice) : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <ul className="mt-4 divide-y divide-[#20190f]/10">
+              {category.items.map((item) => (
+                <li key={item.name} className="flex items-baseline gap-3 py-2.5">
+                  <span className="font-semibold text-[#20190f]">
+                    {item.name}
+                    {item.note && (
+                      <span className="ml-1.5 font-normal text-[#6b5c48]">{item.note}</span>
+                    )}
+                  </span>
+                  <span
+                    className="mx-1 grow border-b border-dotted border-[#20190f]/25"
+                    aria-hidden="true"
+                  />
+                  <span className="shrink-0 font-display text-lg text-[#20190f]">
+                    {peso(item.price)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )
         ) : (
           category.todo && <Todo tone="paper">{category.todo}</Todo>
         )}
+
+        {category.items.length > 0 && category.todo && (
+          <Todo tone="paper">{category.todo}</Todo>
+        )}
+
       </div>
     </article>
   );

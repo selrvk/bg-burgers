@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollFilament } from "@/components/ScrollFilament";
-import { business, contact, socialProof, SITE_URL } from "@/lib/content";
+import { business, contact, socialProof, priceRange, SITE_URL } from "@/lib/content";
 import { openingHoursSpec } from "@/lib/hours";
 
 /**
@@ -67,7 +67,6 @@ export const viewport = {
  * Deliberately omitted:
  *  - `geo`: the only coordinates available belong to the old, permanently
  *    closed listing. Publishing them would point Google at the wrong lot.
- *  - `telephone`: no number is published anywhere.
  *  - `aggregateRating` / `review`: self-serving review markup on your own site
  *    is ineligible for rich results.
  */
@@ -81,8 +80,9 @@ function structuredData() {
     url: SITE_URL,
     image: [`${SITE_URL}/img/og.jpg`],
     servesCuisine: ["Burgers"],
+    telephone: business.phoneHref,
     foundingDate: "2014-06",
-    priceRange: "₱₱",
+    priceRange: `₱${priceRange.low}–₱${priceRange.high}`,
     currenciesAccepted: "PHP",
     address: {
       "@type": "PostalAddress",

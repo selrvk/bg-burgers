@@ -43,12 +43,17 @@ export const business = {
   todoLandmark: "Confirm the exact spelling of the neighbouring business, and add 1–2 more landmarks (e.g. the nearest corner, school, or gas station)",
 
   /**
-   * No phone number is published anywhere — not on Facebook, not on Google.
-   * Confirmed absent rather than merely missing, so the primary call-to-action
-   * is Messenger instead of a tel: link.
+   * Printed on their own menu board as 0939-341-7055, and confirmed separately
+   * by the owner. Two independent sources, so this is safe to publish.
+   *
+   * `phone` is what a customer reads; `phoneHref` is what the tel: link dials.
+   * The international form always connects, including for the OFW customers who
+   * turn up in the reviews.
    */
-  phone: null as string | null,
-  todoPhone: "If there is a mobile number customers can call or text, add it here — it becomes the biggest button on the page",
+  phone: "+63 939 341 7055",
+  phoneHref: "+639393417055",
+  /** How it appears on their printed menu, for anyone cross-checking. */
+  phoneLocal: "0939-341-7055",
 
   founded: "June 2014",
   /** Verbatim from the business's own Facebook page. Do not paraphrase. */
@@ -112,40 +117,44 @@ export const todoHoursNote =
  * Marked as an estimate until the owner confirms real prices.
  */
 export const priceRange = {
-  low: 200,
-  high: 400,
-  isPlaceholder: true,
-  todo: "Confirm the real spend-per-person range once the menu prices below are filled in.",
+  low: 160,
+  high: 360,
+  isPlaceholder: false,
+  todo: "",
 } as const;
 
-export type MenuItem = { name: string; price: number; note?: string };
+export type MenuItem = {
+  name: string;
+  price: number;
+  /** Second price, where the menu board lists one (burgers: ala carte vs meal). */
+  mealPrice?: number;
+  note?: string;
+};
+
 export type MenuCategory = {
   id: string;
   name: string;
   blurb: string;
   photo: string | null;
   photoAlt: string;
+  /** Column headings when a category has two prices per item. */
+  priceColumns?: [string, string];
   items: MenuItem[];
   todo?: string;
 };
 
 /**
- * The menu.
+ * The menu, transcribed word for word from the shop's own printed menu board
+ * (archived at photos/menu_board.jpg). Item names keep their exact wording and
+ * spelling; prices are exactly as printed.
  *
- * The five categories below come straight from the business's own Facebook
- * description ("burgers, chicken wings, pasta, nachos and rice meals") plus
- * what is visible in their photographs — so the categories are verified.
+ * The board groups things as Burgers / Pasta / Appetizers / Add-ons, and that
+ * grouping is reproduced here rather than reorganised, so the owner recognises
+ * their own menu and staff can check it line by line.
  *
- * The item names and prices are NOT known, so every `items` array is empty and
- * each category renders a visible "TO CONFIRM" block instead of guesses.
- *
- * TO FILL THIS IN: add objects to `items`, e.g.
- *     items: [
- *       { name: "Classic Cheeseburger", price: 180 },
- *       { name: "Double Bacon Cheeseburger", price: 260, note: "with fries" },
- *     ],
- * then delete that category's `todo` line. Prices are plain numbers — the ₱
- * sign and comma are added automatically.
+ * TO EDIT: change a `price`, or add an item to `items`, e.g.
+ *     { name: "New Burger", price: 250, mealPrice: 290 },
+ * Prices are plain numbers — the ₱ sign and comma are added automatically.
  */
 export const menu: MenuCategory[] = [
   {
@@ -155,18 +164,33 @@ export const menu: MenuCategory[] = [
     photo: "burgers-w-bacon-shot",
     photoAlt:
       "Four BG Burgers bacon cheeseburgers in wire baskets lined with the shop's branded paper, served with fries",
-    items: [],
-    todo: "Add every burger with its ₱ price — the classic, the double, the bacon, and any specials",
+    priceColumns: ["Ala carte", "Meal"],
+    items: [
+      { name: "BG Burger (Regular)", price: 200, mealPrice: 240 },
+      { name: "Cheese Burger", price: 230, mealPrice: 270 },
+      { name: "Double Cheese Burger", price: 290, mealPrice: 330 },
+      { name: "Bacon Cheese Burger", price: 260, mealPrice: 300 },
+      { name: "Double Bacon Cheese Burger", price: 320, mealPrice: 360 },
+    ],
+    todo: "What comes with a \u201cMeal\u201d — fries and a drink, or rice? Customers ask this before ordering, and the board does not say.",
   },
   {
-    id: "wings",
-    name: "Chicken Wings",
-    blurb: "Fried to order and tossed by hand, in a few different coatings.",
+    id: "appetizers",
+    name: "Appetizers",
+    blurb: "Fries, nachos and hand-tossed wings — the things that get shared.",
     photo: "chicken-wings-shot",
     photoAlt:
       "Three baskets of BG Burgers chicken wings in different coatings — cheese-dusted, red glazed, and breaded — on branded paper",
-    items: [],
-    todo: "Add the wing flavours and their ₱ prices, plus the piece counts (6pcs / 12pcs?)",
+    items: [
+      { name: "BG Fries", price: 160 },
+      { name: "Fries Overload", price: 230 },
+      { name: "Nachos Overload", price: 230 },
+      { name: "BG Chicken Wings", price: 230 },
+      { name: "Buffalo Wings", price: 270 },
+      { name: "Garlic Parmesan Wings", price: 270 },
+      { name: "Chase Honey Garlic Wings", price: 270 },
+    ],
+    todo: "\u201cChase Honey Garlic Wings\u201d is copied exactly as the board prints it. Is that the intended name, or should it read \u201cCheese\u201d? Say the word and we will correct it here and on the board.",
   },
   {
     id: "pasta",
@@ -174,31 +198,31 @@ export const menu: MenuCategory[] = [
     blurb: "Cooked fresh in the same kitchen, good for sharing.",
     photo: null,
     photoAlt: "",
-    items: [],
-    todo: "Add the pasta dishes and ₱ prices (the photos show a shrimp pasta and a creamy bacon pasta — what are they called?)",
+    items: [
+      { name: "Spicy Tuna", price: 250 },
+      { name: "Spaghetti", price: 250 },
+      { name: "Carbonara", price: 250 },
+    ],
   },
   {
-    id: "nachos",
-    name: "Nachos & Sides",
-    blurb: "Beef and cheese nachos, fries, and garlic bread for the table.",
+    id: "add-ons",
+    name: "Add-ons",
+    blurb: "To wash it all down.",
     photo: null,
     photoAlt: "",
-    items: [],
-    todo: "Add nachos, fries, garlic bread and any other sides with ₱ prices",
-  },
-  {
-    id: "rice-meals",
-    name: "Rice Meals",
-    blurb: "For when a burger alone won't do it.",
-    photo: null,
-    photoAlt: "",
-    items: [],
-    todo: "Add the rice meals and ₱ prices",
+    items: [
+      { name: "Bottled Water", price: 35 },
+      { name: "Softdrinks", price: 35 },
+    ],
   },
 ];
 
+/**
+ * The Facebook page also advertises rice meals, but the printed board does not
+ * list them. Rather than guess, the site shows only what the board shows.
+ */
 export const menuTodoGlobal =
-  "Prices are the single most important thing missing from this site. Customers decide whether to drive over based on them.";
+  "Your Facebook page mentions rice meals, but they are not on the printed board — so they are not on the site. Do you still serve them, and at what price?";
 
 /** Drinks, delivery and payment — all unconfirmed. */
 export const service = {

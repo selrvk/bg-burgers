@@ -61,14 +61,9 @@ export function Hero() {
           <OpenStatus className="mt-5" />
 
           <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
-            <a
-              href={contact.messenger}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary w-full sm:w-auto"
-            >
-              <MessengerIcon />
-              Message us to order
+            <a href={`tel:${business.phoneHref}`} className="btn btn-primary w-full sm:w-auto">
+              <PhoneIcon />
+              Call {business.phone}
             </a>
             <a
               href={contact.directionsGoogle}
@@ -82,7 +77,16 @@ export function Hero() {
           </div>
 
           <p className="mt-3 text-sm text-muted">
-            Walang phone line — orders and questions go through Facebook Messenger.
+            Or{" "}
+            <a
+              href={contact.messenger}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-gold-soft underline underline-offset-4"
+            >
+              message us on Facebook
+            </a>{" "}
+            — sagot kami agad tuwing bukas.
           </p>
         </div>
 
@@ -100,13 +104,14 @@ export function Hero() {
   );
 }
 
-function MessengerIcon() {
+function PhoneIcon() {
   return (
     <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2C6.3 2 2 6.2 2 11.8c0 3.2 1.4 6 3.7 7.8V24l3.4-1.9c.9.3 1.9.4 2.9.4 5.7 0 10-4.2 10-9.8S17.7 2 12 2zm1 13.2-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8z" />
+      <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.3 2.1z" />
     </svg>
   );
 }
+
 
 function PinIcon() {
   return (

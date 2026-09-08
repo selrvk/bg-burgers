@@ -1,4 +1,4 @@
-import { business, contact } from "@/lib/content";
+import { business } from "@/lib/content";
 
 /**
  * Slot 1 — the top of the metaphor.
@@ -38,12 +38,14 @@ export function Header() {
             Find us
           </a>
           <a
-            href={contact.messenger}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`tel:${business.phoneHref}`}
             className="btn btn-primary !min-h-[44px] !px-4 text-sm"
+            aria-label={`Call ${business.name} on ${business.phone}`}
           >
-            Message
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.3 2.1z" />
+            </svg>
+            Call
           </a>
         </nav>
       </div>

@@ -42,6 +42,14 @@ export function Footer() {
             <h2 className="font-display text-lg text-gold-soft">Mag-order</h2>
             <ul className="mt-3 space-y-1">
               <li>
+                <a
+                  href={`tel:${business.phoneHref}`}
+                  className="inline-flex min-h-[44px] items-center font-semibold text-gold-soft hover:text-cream"
+                >
+                  {business.phone}
+                </a>
+              </li>
+              <li>
                 <FooterLink href={contact.messenger}>Messenger</FooterLink>
               </li>
               <li>

@@ -93,8 +93,19 @@ export function FindUs() {
             </table>
 
             <p className="mt-3 text-sm leading-relaxed text-muted">{hoursNote}</p>
+
+            <h3 className="mt-6 font-display text-xl text-gold-soft">Tumawag</h3>
+            <a
+              href={`tel:${business.phoneHref}`}
+              className="mt-2 inline-flex min-h-[52px] items-center gap-2.5 font-display text-2xl text-cream hover:text-gold-soft"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.3 0 .7-.2 1l-2.3 2.1z" />
+              </svg>
+              {business.phone}
+            </a>
+
             <Todo>{todoHoursNote}</Todo>
-            <Todo>{business.todoPhone}</Todo>
             <Todo>{service.todoSeating}</Todo>
           </div>
         </div>
